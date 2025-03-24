@@ -40,4 +40,12 @@ abstract class Controller
             'pagination' => $pagination, // Now pagination will not be null if it's a paginated result
         ], $status);
     }
+    protected function error(string $message = 'An error occurred', int $status = 400)
+    {
+        return response()->json([
+            'status' => 'error',
+            'message' => $message,
+        ], $status);
+    }
 }
+
