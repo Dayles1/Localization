@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
@@ -18,7 +19,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
         
     }
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
        
 
