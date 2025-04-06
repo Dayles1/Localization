@@ -18,6 +18,21 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
         
     }
-    
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (auth()->attempt($request->only('email', 'password'))) {
+            $user = auth()->user();
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json(['token' => $token]);
+        }
+
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
 
 }
