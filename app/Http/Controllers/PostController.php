@@ -28,5 +28,11 @@ class PostController extends Controller
         ]);
         return $this->success($post,'Post updated successfully',200);
     }
+    public function destroy($id)
+    {
+        $post=Post::findOrFail($id);
+        $post->delete();
+        return $this->success([],'Post deleted successfully',200);
+    }
 }
  
