@@ -34,10 +34,16 @@ class AuthController extends Controller
             $user->tokens()->delete(); 
             $token = $user->createToken('auth_token')->plainTextToken;
 
-            return response()->json(['token' => $token]);
+            return $this->success(
+                [
+                    'user' => $user,
+                    'token' => $token,
+                ],
+                'Login successful' 
+            );
         }
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return $this->error('Unauthorized!', 401); 
     }
 
 }
