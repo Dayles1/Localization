@@ -16,7 +16,13 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token =$user->createToken('auth_token')->plainTextToken;
+        return $this->success(
+            [
+                'user'=>$user,
+                'token'=>$token
+            ],
+                'User created successfully',201);
         
     }
     public function login(LoginRequest $request)
@@ -25,6 +31,7 @@ class AuthController extends Controller
 
         if (auth()->attempt($request->only('email', 'password'))) {
             $user = auth()->user();
+            $user->tokens()->delete(); 
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json(['token' => $token]);
