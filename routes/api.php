@@ -11,3 +11,4 @@ Route::get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('posts',PostController::class);
 });
+Route::post('/login',[AuthController::class, 'login']);
