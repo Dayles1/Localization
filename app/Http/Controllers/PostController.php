@@ -9,6 +9,17 @@ use App\Http\Requests\PostStoreRequest;
 
 class PostController extends Controller
 {
+    public function index(Request $request)
+    {
+        $posts=Post::query();
+        if($request->has('search')){
+            $posts->where('name','like','%'.$request->search.'%');
+        }
+        if($request->has('sort_by')){
+            $posts->orderBy($request->sort_by,$request->sort_type);
+        }
+        return $this->responsePagination($posts->paginate(10),'Posts retrieved successfully',200);
+    }
     public function store(PostStoreRequest $request){
      $post=Post::create([
         'name'=>$request->name,
