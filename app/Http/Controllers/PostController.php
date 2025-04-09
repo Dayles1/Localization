@@ -21,8 +21,6 @@ class PostController extends Controller
     }
     public function store(PostStoreRequest $request){
      $post=Post::create([
-        'name'=>$request->name,
-        'description'=>$request->description,
         'price'=>$request->price,
         'user_id'=>auth()->user()->id
      ]);
