@@ -26,7 +26,10 @@ class PostController extends Controller
         'price'=>$request->price,
         'user_id'=>auth()->user()->id
      ]);
-     return $this->success($post,__('message.posts.created'),201,);
+     $translations = $this->prepareTranslations($request->translations, ['name', 'description']);
+     $post->fill($translations);
+    $post->save();
+     return $this->success($post->load('translations'),__('message.posts.created'),201,);
     }
     public function update(PostUpdateRequest $request, $id)
     {
