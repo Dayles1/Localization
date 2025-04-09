@@ -45,6 +45,10 @@ class AuthController extends Controller
 
         return $this->error(__('message.auth.invalid_credentials'), 401); 
     }
-    
+    public function logout(Request $request)
+    {
+        auth()->user()->tokens()->delete(); 
+        return $this->success([], __('message.auth.logout'), 200);
+    }
 
 }
