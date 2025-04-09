@@ -47,7 +47,13 @@ class AuthController extends Controller
     }
     public function logout(Request $request)
     {
-        auth()->user()->tokens()->delete(); 
+        $user = auth()->user();
+
+        if (!$user) {
+            return $this->error(__('message.auth.unauthorized'), 401);
+        }
+
+        $user->tokens()->delete(); 
         return $this->success([], __('message.auth.logout'), 200);
     }
 
