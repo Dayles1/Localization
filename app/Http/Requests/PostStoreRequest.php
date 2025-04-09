@@ -22,8 +22,8 @@ class PostStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-        'name' => 'required|string|max:255',
-        'description' => 'required|string',
+        // 'name' => 'required|string|max:255',
+        // 'description' => 'required|string',
         'price' => 'required|numeric|min:0',
         ];
     }

@@ -38,10 +38,13 @@ class PostController extends Controller
             return $this->error(__('message.posts.forbidden'),403);
         }
         $post->update([
-            'name'=>$request->name,
-            'description'=>$request->description,
+        
             'price'=>$request->price,
         ]);
+        $translations = $this->prepareTranslations($request->translations, ['name', 'description']);
+        $post->fill($translations);
+        $post->save();
+        $post->load('translations');
         return $this->success($post,__('message.posts.updated'),200);
     }
     public function destroy($id)
