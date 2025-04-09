@@ -8,6 +8,8 @@ return [
         'not_found' => 'Post not found',
         'unauthorized' => 'You do not have permission to access this post',
         'forbidden' => 'You do not have permission to access this post',
+        'retrieved' => 'Posts retrieved successfully'
+
     ],
     'auth' => [
         'login' => 'Login successful',

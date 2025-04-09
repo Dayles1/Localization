@@ -9,16 +9,15 @@ use App\Http\Requests\PostStoreRequest;
 
 class PostController extends Controller
 {
-    public function index(Request $request)
-    {
-        $posts=Post::query();
-        if($request->has('search')){
-            $posts->where('name','like','%'.$request->search.'%');
-        }
-        if($request->has('sort_by')){
-            $posts->orderBy($request->sort_by,$request->sort_type);
-        }
-        return $this->responsePagination($posts->paginate(10),'Posts retrieved successfully',200);
+    public function index()
+    {   
+        $paginatedPosts = Post::paginate(10);
+        return $this->responsePagination(
+            paginator: $paginatedPosts,
+            data: $paginatedPosts->items(),
+            message: __('message.posts.retrieved'),
+            status: 200
+        );
     }
     public function store(PostStoreRequest $request){
      $post=Post::create([
@@ -27,23 +26,33 @@ class PostController extends Controller
         'price'=>$request->price,
         'user_id'=>auth()->user()->id
      ]);
-     return $this->success($post,'Post created successfully',201,);
+     return $this->success($post,__('message.posts.created'),201,);
     }
     public function update(PostUpdateRequest $request, $id)
     {
+
         $post=Post::findOrFail($id);
+
+        if($post->user_id !== auth()->user()->id){
+            return $this->error(__('message.posts.forbidden'),403);
+        }
         $post->update([
             'name'=>$request->name,
             'description'=>$request->description,
             'price'=>$request->price,
         ]);
-        return $this->success($post,'Post updated successfully',200);
+        return $this->success($post,__('message.posts.updated'),200);
     }
     public function destroy($id)
     {
         $post=Post::findOrFail($id);
+
+        if($post->user_id != auth()->user()->id){
+            return $this->error(__('message.posts.forbidden'),403);
+        }
+
         $post->delete();
-        return $this->success([],'Post deleted successfully',200);
+        return $this->success([],__('message.posts.deleted'),200);
     }
 }
  
