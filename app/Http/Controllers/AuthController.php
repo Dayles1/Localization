@@ -22,7 +22,7 @@ class AuthController extends Controller
                 'user'=>$user,
                 'token'=>$token
             ],
-                'User created successfully',201);
+                __('message.auth.register'),201);
         
     }
     public function login(LoginRequest $request)
@@ -39,11 +39,12 @@ class AuthController extends Controller
                     'user' => $user,
                     'token' => $token,
                 ],
-                'Login successful' 
+                __('message.auth.login'), 200
             );
         }
 
-        return $this->error('Unauthorized!', 401); 
+        return $this->error(__('message.auth.invalid_credentials'), 401); 
     }
+    
 
 }
