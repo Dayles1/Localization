@@ -13,5 +13,5 @@ Route::middleware(['auth:sanctum','setLocale'])->group(function(){
 Route::middleware('setLocale')->group(function(){
     Route::post('/login',[AuthController::class, 'login']);
     Route::post('/register',[AuthController::class,'register']);
-    
+    Route::delete('/logout',[AuthController::class,'logout']);
 });
