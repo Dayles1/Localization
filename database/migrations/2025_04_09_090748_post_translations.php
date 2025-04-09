@@ -11,7 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('post_translations', function (Blueprint $table) {
+            $table->id();
+            $table->integer('post_id')->unsigned();
+            $table->string('locale')->index();
+            $table->string('name');
+            $table->text('description');
+        
+            $table->unique(['post_id', 'locale']);
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('post_translations');
     }
 };
